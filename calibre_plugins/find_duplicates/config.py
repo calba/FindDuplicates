@@ -108,7 +108,7 @@ def get_exemption_lists(db):
 
     book_exemptions = library_config.get(KEY_BOOK_EXEMPTIONS, [])
     is_changed = False
-    for idx in xrange(0, len(book_exemptions)):
+    for idx in range(0, len(book_exemptions)):
         old_list = book_exemptions[idx]
         new_list = [book_id for book_id in old_list if db.data.has_id(book_id)]
         if len(old_list) != len(new_list):

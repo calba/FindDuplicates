@@ -79,7 +79,7 @@ class VariationAlgorithm(object):
         Return a dictionary of candidates.
         '''
         candidates_map = defaultdict(set)
-        for item_id, item_text in data_map.iteritems():
+        for item_id, item_text in data_map.items():
             result = self.fn(item_text)
             # Have to cope with functions returning 1 or 2 results since
             # author functions do the reverse hash too
@@ -157,7 +157,7 @@ def run_variation_algorithm(match_type, item_type):
     dm, cm, im = alg.run_variation_check(match_type, item_type)
     print('---')
     print('%s %s Duplicate Results:'%(match_type, item_type))
-    for k, matches in im.iteritems():
+    for k, matches in im.items():
         texts = ['%s (%d)'%(dm[i],cm[i]) for i in matches]
         print('  %s (%d) => {%s}'%(dm[k], cm[k], ', '.join(texts)))
 

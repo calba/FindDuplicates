@@ -374,7 +374,7 @@ class BookExemptionsTableWidget(QTableWidget):
 
     def get_checked_book_ids(self):
         ids = []
-        for row in xrange(1, self.rowCount()):
+        for row in range(1, self.rowCount()):
             if row:
                 if self.item(row, 0).get_boolean_value():
                     ids.append(convert_qvariant(self.item(row, 1).data(Qt.UserRole)))
@@ -413,7 +413,7 @@ class AuthorExemptionsTableWidget(QTableWidget):
 
     def get_checked_authors(self):
         authors = []
-        for row in xrange(1, self.rowCount()):
+        for row in range(1, self.rowCount()):
             if row:
                 if self.item(row, 0).get_boolean_value():
                     authors.append(unicode(self.item(row, 1).text()))
@@ -458,7 +458,7 @@ class ManageExemptionsDialog(SizePersistedDialog):
             layout.addWidget(help_label2)
             tab_widget = QTabWidget(self)
             layout.addWidget(tab_widget)
-            for author, author_exemptions in author_exemptions_map.iteritems():
+            for author, author_exemptions in author_exemptions_map.items():
                 tab_page = QWidget(self)
                 tab_widget.addTab(tab_page, author)
                 tab_page_layout = QVBoxLayout()
@@ -485,7 +485,7 @@ class ManageExemptionsDialog(SizePersistedDialog):
 
     def get_checked_authors_map(self):
         author_exemptions_map = OrderedDict()
-        for author, exempt_authors_table in self._exempt_authors_table_map.iteritems():
+        for author, exempt_authors_table in self._exempt_authors_table_map.items():
             checked_items = exempt_authors_table.get_checked_authors()
             if checked_items:
                 author_exemptions_map[author] = checked_items

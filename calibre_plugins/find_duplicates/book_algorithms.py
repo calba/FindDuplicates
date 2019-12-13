@@ -70,7 +70,7 @@ class AlgorithmBase(object):
         Default implementation will iterate over the current subset of books
         in our current library model
         '''
-        rows = xrange(self.model.rowCount(QModelIndex()))
+        rows = range(self.model.rowCount(QModelIndex()))
         book_ids = map(self.model.id, rows)
         return book_ids
 
@@ -127,7 +127,7 @@ class AlgorithmBase(object):
         that are subsets of other sets.
         '''
         res = [set(d) for d in candidates_map.values()]
-        res.sort(cmp=lambda x, y: cmp(len(x), len(y)))
+        res.sort(key=lambda x: len(x))
         candidates_list = []
         for i,a in enumerate(res):
             for b in res[i+1:]:
@@ -277,7 +277,7 @@ class BinaryCompareAlgorithm(IdentifierAlgorithm):
         candidates_map = defaultdict(set)
         hash_map = self.db.get_all_custom_book_data('find_duplicates', default={})
         result_hash_map = {}
-        for size, size_group in candidates_size_map.iteritems():
+        for size, size_group in candidates_size_map.items():
             for book_id, fmt, mtime in size_group:
                 self._find_candidate_by_hash(book_id, fmt, mtime, size, candidates_map, hash_map, result_hash_map)
         self.db.add_multiple_custom_book_data('find_duplicates', result_hash_map)

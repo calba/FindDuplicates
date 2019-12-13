@@ -729,11 +729,11 @@ class DuplicateFinder(object):
         if DEBUG:
             prints('Automatically removing binary format duplicates')
         hash_map = self.db.get_all_custom_book_data('find_duplicates', default={})
-        for books_list in books_for_group_map.itervalues():
+        for books_list in books_for_group_map.values():
             # Determine the oldest book format in this group
             earliest_book_id = books_list[0]
             earliest_date = self.db.timestamp(earliest_book_id, index_is_id=True)
-            for idx in xrange(1, len(books_list)):
+            for idx in range(1, len(books_list)):
                 book_date = self.db.timestamp(books_list[idx], index_is_id=True)
                 if book_date < earliest_date:
                     earliest_book_id = books_list[idx]
@@ -742,7 +742,7 @@ class DuplicateFinder(object):
 
             book_map = hash_map[earliest_book_id]
             # Now iterate through the formats for this oldest book
-            for fmt, info in book_map.iteritems():
+            for fmt, info in book_map.items():
                 for other_book_id in other_book_ids:
                     other_book_map = hash_map[other_book_id]
                     if fmt not in other_book_map:
@@ -880,14 +880,14 @@ class CrossLibraryDuplicateFinder(object):
 
         def shrink_map(source_map, other_map):
             new_map = {}
-            for k,v in source_map.iteritems():
+            for k,v in source_map.items():
                 if k in other_map:
                     new_map[k] = v
             return new_map
 
         def get_format(results_hash_map, book_id):
             book_format = ''
-            for fmt, book_data in results_hash_map[book_id].iteritems():
+            for fmt, book_data in results_hash_map[book_id].items():
                 if book_data['sha'] == k[0] and book_data['size'] == k[1]:
                     book_format = fmt
                     break
@@ -918,7 +918,7 @@ class CrossLibraryDuplicateFinder(object):
         target_hash_map = self.target_db.get_all_custom_book_data('find_duplicates', default={})
         target_result_hash_map = {}
         target_candidates_map = defaultdict(set)
-        for size, size_group in target_candidates_size_map.iteritems():
+        for size, size_group in target_candidates_size_map.items():
             for book_id, fmt, mtime in size_group:
                 target_algorithm._find_candidate_by_hash(book_id, fmt, mtime, size, target_candidates_map, target_hash_map, target_result_hash_map)
         self.target_db.add_multiple_custom_book_data('find_duplicates', target_result_hash_map)
@@ -927,7 +927,7 @@ class CrossLibraryDuplicateFinder(object):
         local_hash_map = self.db.get_all_custom_book_data('find_duplicates', default={})
         local_result_hash_map = {}
         local_candidates_map = defaultdict(set)
-        for size, size_group in local_candidates_size_map.iteritems():
+        for size, size_group in local_candidates_size_map.items():
             for book_id, fmt, mtime in size_group:
                 algorithm._find_candidate_by_hash(book_id, fmt, mtime, size, local_candidates_map, local_hash_map, local_result_hash_map)
         self.db.add_multiple_custom_book_data('find_duplicates', local_result_hash_map)
@@ -941,7 +941,7 @@ class CrossLibraryDuplicateFinder(object):
         # Finally what is left are groups of current library books that have duplicates
         duplicates_count = 0
         duplicate_book_ids = []
-        for k, book_ids in local_candidates_map.iteritems():
+        for k, book_ids in local_candidates_map.items():
             target_book_ids = target_candidates_map[k]
             # We may have multiple duplicates within our own library
             # Unlike the other cross-library comparisons, will show these together

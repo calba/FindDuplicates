@@ -255,7 +255,7 @@ class FindDuplicatesAction(InterfaceAction):
                                             exempt_book_ids, from_book_id=book_id)
             exempt_authors_map = d.get_checked_authors_map()
             if exempt_authors_map:
-                for author, exempt_authors in exempt_authors_map.iteritems():
+                for author, exempt_authors in exempt_authors_map.items():
                     self.duplicate_finder.remove_from_author_exemptions(
                                             authors=exempt_authors, from_author=author)
 
