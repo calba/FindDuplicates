@@ -231,9 +231,9 @@ class FindBookDuplicatesDialog(SizePersistedDialog):
         self.author_match  = cfg.plugin_prefs.get(cfg.KEY_AUTHOR_MATCH, 'identical')
         search_type_idx = SEARCH_TYPES.index(self.search_type)
         self.search_type_button_group.button(search_type_idx).setChecked(True)
-        title_idx = TITLE_DESCS.keys().index(self.title_match)
+        title_idx = list(TITLE_DESCS.copy().keys()).index(self.title_match)
         self.title_button_group.button(title_idx).setChecked(True)
-        author_idx = AUTHOR_DESCS.keys().index(self.author_match)
+        author_idx = list(AUTHOR_DESCS.copy().keys()).index(self.author_match)
         self.author_button_group.button(author_idx).setChecked(True)
         self._update_description()
 
@@ -312,8 +312,8 @@ class FindBookDuplicatesDialog(SizePersistedDialog):
         cfg.plugin_prefs[cfg.KEY_SORT_GROUPS_TITLE] = sort_groups_by_title
         show_tag_author = self.show_tag_author_checkbox.isChecked()
         cfg.plugin_prefs[cfg.KEY_SHOW_TAG_AUTHOR] = show_tag_author
-        cfg.plugin_prefs[cfg.KEY_TITLE_SOUNDEX] = int(unicode(self.title_soundex_spin.value()))
-        cfg.plugin_prefs[cfg.KEY_AUTHOR_SOUNDEX] = int(unicode(self.author_soundex_spin.value()))
+        cfg.plugin_prefs[cfg.KEY_TITLE_SOUNDEX] = int(str(self.title_soundex_spin.value()))
+        cfg.plugin_prefs[cfg.KEY_AUTHOR_SOUNDEX] = int(str(self.author_soundex_spin.value()))
         cfg.plugin_prefs[cfg.KEY_INCLUDE_LANGUAGES] = self.include_languages_checkbox.isChecked()
         cfg.plugin_prefs[cfg.KEY_AUTO_DELETE_BINARY_DUPS] = self.auto_delete_binary_dups_checkbox.isChecked()
         self.accept()
@@ -416,7 +416,7 @@ class AuthorExemptionsTableWidget(QTableWidget):
         for row in range(1, self.rowCount()):
             if row:
                 if self.item(row, 0).get_boolean_value():
-                    authors.append(unicode(self.item(row, 1).text()))
+                    authors.append(str(self.item(row, 1).text()))
         return authors
 
 
@@ -520,7 +520,7 @@ class ItemsComboBox(EditWithComplete):
     def current_val(self):
 
         def fget(self):
-            return unicode(self.currentText()).strip()
+            return str(self.currentText()).strip()
 
         def fset(self, val):
             if not val:
@@ -680,7 +680,7 @@ class FindVariationsDialog(SizePersistedDialog):
         match_type = 'similar'
         if self.opt_soundex.isChecked():
             match_type = 'soundex'
-            soundex_len = int(unicode(self.soundex_spin.value()))
+            soundex_len = int(str(self.soundex_spin.value()))
             if item_type == 'authors':
                 cfg.plugin_prefs[cfg.KEY_AUTHOR_SOUNDEX] = soundex_len
                 set_author_soundex_length(soundex_len)
@@ -840,7 +840,7 @@ class FindVariationsDialog(SizePersistedDialog):
 
     def _rename_selected(self):
         # We will rename both the LHS and all selected items on the RHS where needed.
-        new_name = unicode(self.rename_combo.text())
+        new_name = str(self.rename_combo.text())
         if not new_name:
             return
         item_lw = self.item_list.currentItem()
@@ -1149,7 +1149,7 @@ class FindLibraryDuplicatesDialog(SizePersistedDialog):
 
     def _ok_clicked(self):
         db = self.gui.current_db
-        loc = unicode(self.location.text()).strip()
+        loc = str(self.location.text()).strip()
         if not loc:
             return error_dialog(self, _('No library specified'),
                     _('You must specify a library path'), show=True)
@@ -1167,8 +1167,8 @@ class FindLibraryDuplicatesDialog(SizePersistedDialog):
         cfg.plugin_prefs[cfg.KEY_IDENTIFIER_TYPE] = self.identifier_combo.selected_value()
         cfg.plugin_prefs[cfg.KEY_TITLE_MATCH] = self.title_match
         cfg.plugin_prefs[cfg.KEY_AUTHOR_MATCH] = self.author_match
-        cfg.plugin_prefs[cfg.KEY_TITLE_SOUNDEX] = int(unicode(self.title_soundex_spin.value()))
-        cfg.plugin_prefs[cfg.KEY_AUTHOR_SOUNDEX] = int(unicode(self.author_soundex_spin.value()))
+        cfg.plugin_prefs[cfg.KEY_TITLE_SOUNDEX] = int(str(self.title_soundex_spin.value()))
+        cfg.plugin_prefs[cfg.KEY_AUTHOR_SOUNDEX] = int(str(self.author_soundex_spin.value()))
         self.location.save_history()
         self.library_config[cfg.KEY_LAST_LIBRARY_COMPARE] = loc
         cfg.set_library_config(db, self.library_config)
@@ -1186,7 +1186,7 @@ class SummaryMessageBox(MessageBox):
             b.clicked.connect(self._save_log)
 
     def _save_log(self):
-        txt = unicode(self.det_msg.toPlainText())
+        txt = str(self.det_msg.toPlainText())
         filename = choose_save_file(self, 'find_duplicates_plugin:save_log',
                 _('Save Find Duplicates log'),
                 filters=[(_('Duplicates log file'), ['txt'])])

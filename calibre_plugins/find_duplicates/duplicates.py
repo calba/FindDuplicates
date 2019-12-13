@@ -658,12 +658,12 @@ class DuplicateFinder(object):
 
     def _persist_gui_state(self):
         r = self.gui.search_restriction
-        self._restore_restriction = unicode(r.currentText())
+        self._restore_restriction = str(r.currentText())
         self._restore_restriction_is_text = False
         if self._restore_restriction:
             # How do we know whether this is a named search or a text search?
             # TODO: hacks below will work for 0.7.56 and later, will change it when 0.7.57 released
-            special_menu = unicode(r.itemText(1))
+            special_menu = str(r.itemText(1))
             self._restore_restriction_is_text = special_menu == self._restore_restriction
             if self._restore_restriction.startswith('*') and r.currentIndex() == 2:
                 self._restore_restriction_is_text = True
@@ -685,7 +685,7 @@ class DuplicateFinder(object):
     def _apply_restriction_if_different(self, restriction, is_text_restriction=True):
         prev_ignore = self._ignore_clear_signal
         self._ignore_clear_signal = True
-        if unicode(self.gui.search_restriction.currentText()) not in [restriction, '*'+restriction]:
+        if str(self.gui.search_restriction.currentText()) not in [restriction, '*'+restriction]:
             if is_text_restriction:
                 self.gui.apply_text_search_restriction(restriction)
             else:

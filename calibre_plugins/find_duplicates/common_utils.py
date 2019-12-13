@@ -46,7 +46,7 @@ else:
     def convert_qvariant(x):
         vt = x.type()
         if vt == x.String:
-            return unicode(x.toString())
+            return str(x.toString())
         if vt == x.List:
             return [convert_qvariant(i) for i in x.toList()]
         return x.toPyObject()
@@ -417,7 +417,7 @@ class ListComboBox(QComboBox):
         self.setCurrentIndex(selected_idx)
 
     def selected_value(self):
-        return unicode(self.currentText())
+        return str(self.currentText())
 
 
 class KeyValueComboBox(QComboBox):
@@ -439,7 +439,7 @@ class KeyValueComboBox(QComboBox):
 
     def selected_key(self):
         for key, value in self.values.items():
-            if value == unicode(self.currentText()).strip():
+            if value == str(self.currentText()).strip():
                 return key
 
 
@@ -685,7 +685,7 @@ class PrefsViewerDialog(SizePersistedDialog):
         if new_row < 0:
             self.value_text.clear()
             return
-        key = unicode(self.keys_list.currentItem().text())
+        key = str(self.keys_list.currentItem().text())
         val = self.db.prefs.get_namespaced(self.namespace, key, '')
         self.value_text.setPlainText(self.db.prefs.to_raw(val))
 
@@ -701,8 +701,8 @@ class PrefsViewerDialog(SizePersistedDialog):
         if not confirm(message, self.namespace+'_clear_settings', self):
             return
 
-        val = self.db.prefs.raw_to_object(unicode(self.value_text.toPlainText()))
-        key = unicode(self.keys_list.currentItem().text())
+        val = self.db.prefs.raw_to_object(str(self.value_text.toPlainText()))
+        key = str(self.keys_list.currentItem().text())
         self.db.prefs.set_namespaced(self.namespace, key, val)
 
         restart = prompt_for_restart(self, 'Settings changed',
