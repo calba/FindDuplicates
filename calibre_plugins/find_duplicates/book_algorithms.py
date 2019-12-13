@@ -71,7 +71,7 @@ class AlgorithmBase(object):
         in our current library model
         '''
         rows = range(self.model.rowCount(QModelIndex()))
-        book_ids = map(self.model.id, rows)
+        book_ids = list(map(self.model.id, rows))
         return book_ids
 
     def find_candidates(self, book_ids, include_languages=False):

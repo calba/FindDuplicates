@@ -260,11 +260,11 @@ class FindBookDuplicatesDialog(SizePersistedDialog):
         self._update_description()
 
     def _title_radio_clicked(self, idx):
-        self.title_match = TITLE_DESCS.keys()[idx]
+        self.title_match = list(TITLE_DESCS.copy().keys())[idx]
         self._update_description()
 
     def _author_radio_clicked(self, idx):
-        self.author_match = AUTHOR_DESCS.keys()[idx]
+        self.author_match = list(AUTHOR_DESCS.copy().keys())[idx]
         self._update_description()
 
     def _update_description(self):
@@ -299,7 +299,7 @@ class FindBookDuplicatesDialog(SizePersistedDialog):
             if not ident_auth_btn.isEnabled() and ident_auth_btn.isChecked():
                 # We have to move the author radio button selection to a valid one
                 self.author_button_group.button(1).setChecked(True)
-                self.author_match = AUTHOR_DESCS.keys()[1]
+                self.author_match = list(AUTHOR_DESCS.copy().keys())[1]
 
     def _ok_clicked(self):
         cfg.plugin_prefs[cfg.KEY_SEARCH_TYPE] = self.search_type
@@ -1084,9 +1084,9 @@ class FindLibraryDuplicatesDialog(SizePersistedDialog):
         self.author_match  = cfg.plugin_prefs.get(cfg.KEY_AUTHOR_MATCH, 'identical')
         search_type_idx = SEARCH_TYPES.index(self.search_type)
         self.search_type_button_group.button(search_type_idx).setChecked(True)
-        title_idx = LIBRARY_TITLE_DESCS.keys().index(self.title_match)
+        title_idx = list(LIBRARY_TITLE_DESCS.copy().keys()).index(self.title_match)
         self.title_button_group.button(title_idx).setChecked(True)
-        author_idx = AUTHOR_DESCS.keys().index(self.author_match)
+        author_idx = list(AUTHOR_DESCS.copy().keys()).index(self.author_match)
         self.author_button_group.button(author_idx).setChecked(True)
         self._update_description()
 
@@ -1112,11 +1112,11 @@ class FindLibraryDuplicatesDialog(SizePersistedDialog):
         self._update_description()
 
     def _title_radio_clicked(self, idx):
-        self.title_match = LIBRARY_TITLE_DESCS.keys()[idx]
+        self.title_match = list(LIBRARY_TITLE_DESCS.copy().keys())[idx]
         self._update_description()
 
     def _author_radio_clicked(self, idx):
-        self.author_match = AUTHOR_DESCS.keys()[idx]
+        self.author_match = list(AUTHOR_DESCS.copy().keys())[idx]
         self._update_description()
 
     def _update_description(self):
